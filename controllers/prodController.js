@@ -10,12 +10,17 @@ app.set("view-engine", "pug");
 
 // getting all products
 exports.getAllproducts = async (req, res) => {
-  const products = await Product.find();
-  res.status(200).json({
-    products,
-  });
-  // const query = await axios.get("mongodb://127.0.0.1:27018");
-  // res.render("index", { products: query.data });
+  try {
+    // const query = await axios.get("mongodb://127.0.0.1:27018");
+    // console.log(query);
+    const products = await Product.find();
+    res.status(200).json({
+      products,
+    });
+    // res.render("index", { products: query.data });
+  } catch (err) {
+    err;
+  }
 };
 
 // creating products

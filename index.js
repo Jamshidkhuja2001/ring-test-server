@@ -31,7 +31,7 @@ mongoose
 
 // Middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Routes
 app.use("/products", productRoute);
