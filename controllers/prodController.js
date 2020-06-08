@@ -41,3 +41,42 @@ exports.createProduct = async (req, res) => {
     });
   }
 };
+
+// getting product by id
+
+exports.getProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    res.status(200).json({
+      product,
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+// updating product
+
+exports.updateProduct = async (req, res) => {
+  try {
+    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.status(200).json({
+      product,
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+// deleting product
+
+exports.deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+    res.send("Product had been deleted");
+  } catch (err) {
+    return err;
+  }
+};
