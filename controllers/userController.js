@@ -8,17 +8,18 @@ exports.getUsers = async (req, res) => {
       users,
     });
   } catch (err) {
-    return err;
+    console.log(err.message);
   }
 };
 
-// creating user
+// signing up user
 exports.createUser = async (req, res) => {
   try {
-    let { username, email } = req.body;
+    let { username, email, password } = req.body;
     const newUser = await new User({
       username,
       email,
+      password,
     });
     newUser.save();
 
@@ -29,9 +30,12 @@ exports.createUser = async (req, res) => {
     res.json({
       err,
     });
-    console.log(err);
+    console.log(err.message);
   }
 };
+
+// logging in user
+exports.login = async (req, res) => {};
 
 // getting user by id
 exports.getUser = async (req, res) => {
@@ -41,7 +45,7 @@ exports.getUser = async (req, res) => {
       user,
     });
   } catch (err) {
-    return err;
+    console.log(err.message);
   }
 };
 
@@ -55,7 +59,7 @@ exports.updateUser = async (req, res) => {
       user,
     });
   } catch (err) {
-    return err;
+    console.log(err.message);
   }
 };
 
@@ -65,6 +69,6 @@ exports.deleteUser = async (req, res) => {
     await User.findById(req.params.id);
     res.send("User has been deleted");
   } catch (err) {
-    return err;
+    console.log(err.message);
   }
 };
