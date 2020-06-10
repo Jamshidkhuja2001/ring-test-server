@@ -13,7 +13,7 @@ exports.getUsers = async (req, res) => {
   }
 };
 
-// signing up user
+// signing user up
 exports.createUser = async (req, res) => {
   try {
     const newUser = await User.create(req.body);
