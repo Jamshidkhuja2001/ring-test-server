@@ -32,9 +32,16 @@ exports.createUser = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    res.json({
-      user,
-    });
+    // checking if email or password is valid
+    if (!user) {
+      return res.json({
+        message: "Invalid email or password",
+      });
+    } else {
+      res.json({
+        user,
+      });
+    }
   } catch (err) {
     return res.json({
       err,

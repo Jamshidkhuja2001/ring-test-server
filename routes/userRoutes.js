@@ -14,6 +14,6 @@ router.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
 
 // auth routes
 router.route("/signup").post(createUser);
-router.route("login").post(login);
+router.route("/login").post(login);
 
 module.exports = router;
