@@ -30,10 +30,14 @@ UserSchema.pre("save", function (next) {
   let user = this;
 
   if (user.isModified("password")) {
+    // hashing the password
     bcrypt.hash(user.password, 12).then((hash) => {
       user.password = hash;
       next();
     });
+
+    // deleting passwordConfirm field
+    this.passwordConfirm = undefined;
   } else {
     next();
   }
