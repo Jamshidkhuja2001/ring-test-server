@@ -37,6 +37,7 @@ app.use(express.json());
 app.use("/products", productRoute);
 app.use("/users", userRoute);
 
-app.listen(3000, () => {
-  console.log("app is running");
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`app is running on port ${PORT}`);
 });
