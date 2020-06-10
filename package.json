@@ -18,6 +18,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.8",
     "mongoose": "^5.9.17",
-    "pug": "^3.0.0"
+    "pug": "^3.0.0",
+    "validator": "^13.0.0",
+    "validatorjs": "^3.18.1"
   }
 }

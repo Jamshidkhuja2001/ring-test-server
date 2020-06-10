@@ -1,4 +1,5 @@
 const User = require("./../models/userModel");
+const bcrypt = require("bcryptjs");
 
 // getting all users
 exports.getUsers = async (req, res) => {
@@ -15,16 +16,15 @@ exports.getUsers = async (req, res) => {
 // signing up user
 exports.createUser = async (req, res) => {
   try {
-    let { username, email, password } = req.body;
-    const newUser = await new User({
-      username,
-      email,
-      password,
-    });
-    newUser.save();
-
+    const newUser = await User.create(req.body);
+    console.log(newUser.password);
     res.status(201).json({
       newUser,
+    });
+    bcrypt.hash(newUser.password, 12).then((hash) => {
+      newUser.password = hash;
+      newUser.save();
+      console.log(newUser.password);
     });
   } catch (err) {
     res.json({
@@ -34,8 +34,13 @@ exports.createUser = async (req, res) => {
   }
 };
 
-// logging in user
-exports.login = async (req, res) => {};
+// logging user in
+exports.login = async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  res.json({
+    user,
+  });
+};
 
 // getting user by id
 exports.getUser = async (req, res) => {
