@@ -17,14 +17,8 @@ exports.getUsers = async (req, res) => {
 exports.createUser = async (req, res) => {
   try {
     const newUser = await User.create(req.body);
-    console.log(newUser.password);
-    res.status(201).json({
+    res.json({
       newUser,
-    });
-    bcrypt.hash(newUser.password, 12).then((hash) => {
-      newUser.password = hash;
-      newUser.save();
-      console.log(newUser.password);
     });
   } catch (err) {
     res.json({
@@ -36,10 +30,16 @@ exports.createUser = async (req, res) => {
 
 // logging user in
 exports.login = async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
-  res.json({
-    user,
-  });
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    res.json({
+      user,
+    });
+  } catch (err) {
+    return res.json({
+      err,
+    });
+  }
 };
 
 // getting user by id
