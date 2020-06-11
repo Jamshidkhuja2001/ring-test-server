@@ -1,5 +1,5 @@
-const User = require("./../models/userModel");
-const bcrypt = require("bcryptjs");
+const User = require('./../models/userModel');
+const bcrypt = require('bcryptjs');
 
 // getting all users
 exports.getUsers = async (req, res) => {
@@ -32,16 +32,21 @@ exports.createUser = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    // checking if email or password is valid
+    // checking if email is valid
     if (!user) {
       return res.json({
-        message: "Invalid email or password",
-      });
-    } else {
-      res.json({
-        user,
+        message: 'Invalid email or password',
       });
     }
+    const isMatch = await user.comparePassword(req.body.password);
+    if (!isMatch) {
+      return res.json({
+        message: 'Invalid email or password',
+      });
+    }
+    res.json({
+      user,
+    });
   } catch (err) {
     return res.json({
       err,
@@ -79,7 +84,7 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   try {
     await User.findById(req.params.id);
-    res.send("User has been deleted");
+    res.send('User has been deleted');
   } catch (err) {
     console.log(err.message);
   }
