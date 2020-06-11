@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
   passwordConfirm: {
     type: String,
     required: true,
+    validator: function (el) {
+      return el === this.password;
+    },
+    message: 'Passwords are not the same',
   },
 });
 
@@ -44,16 +48,18 @@ UserSchema.pre('save', function (next) {
 });
 
 // comparing passwords
-UserSchema.methods.comparePassword = async function (
+UserSchema.methods.comparePassword = function (
   candidatePassword,
   checkPassword
 ) {
-  try {
-    const isMatch = await bcrypt.compare(candidatePassword, this.password);
+  // try {
+  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+    if (err) throw checkPassword(err);
     checkPassword(null, isMatch);
-  } catch (err) {
-    return checkPassword(err.message);
-  }
+  });
+
+  // checkPassword(null, isMatch);
+  // }
 };
 
 const User = mongoose.model('User', UserSchema);

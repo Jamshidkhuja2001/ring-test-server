@@ -30,28 +30,29 @@ exports.createUser = async (req, res) => {
 
 // logging user in
 exports.login = async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    // checking if email is valid
-    if (!user) {
-      return res.json({
-        message: 'Invalid email or password',
-      });
-    }
-    const isMatch = await user.comparePassword(req.body.password);
-    if (!isMatch) {
-      return res.json({
-        message: 'Invalid email or password',
-      });
-    }
-    res.json({
-      user,
-    });
-  } catch (err) {
+  // try {
+  const user = await User.findOne({ email: req.body.email });
+  // checking if email is valid
+  if (!user) {
     return res.json({
-      err,
+      message: 'Invalid email or password',
     });
   }
+  const isMatch = await user.comparePassword(req.body.password);
+  if (!isMatch) {
+    return res.json({
+      message: 'Invalid email or password',
+    });
+  }
+  // if email and password are valid then sending back user data
+  res.json({
+    user,
+  });
+  // } catch (err) {
+  // return res.json({
+  // err,
+  // });
+  // }
 };
 
 // getting user by id
@@ -59,7 +60,8 @@ exports.getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     res.status(200).json({
-      user,
+      username: user.username,
+      email: user.email,
     });
   } catch (err) {
     console.log(err.message);
