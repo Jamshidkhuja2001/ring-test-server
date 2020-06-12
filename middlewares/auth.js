@@ -12,5 +12,11 @@ const auth = async (req, res, next) => {
     req.user = user;
     req.token = token;
     next();
+  } catch (err) {
+    res.status(401).json({
+      error: "Not authorized",
+    });
   }
 };
+
+module.exports = auth;
